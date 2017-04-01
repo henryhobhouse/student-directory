@@ -1,5 +1,4 @@
 # the list of students in an array
-=begin
 students = [
   {name: "Dr Hannibal Lecter", cohort: :november},
   {name: "Darth Vader", cohort: :november},
@@ -13,8 +12,8 @@ students = [
   {name: "Joffrey Baratheon", cohort: :november},
   {name: "Norman Bates", cohort: :november},
 ]
-=end
 
+=begin
 def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
@@ -35,23 +34,38 @@ def input_students
   # return the array of students
   students
 end
+=end
 
 def print_header
   puts "The students of Villians Academy"
   puts "-------------"
 end
-
+=begin
 # changed method to non standard ruby call (print)
 def print_name(names)
   names.each_with_index{ |val, index| puts "#{index + 1}: #{val[:name]} (#{val[:cohort]} cohort)" }
+end
+=end
+
+# lists the students based on fist character in their name determined by the user
+def students_by_letter (students)
+  puts "This will list students based on first character in their name."
+  puts "Which character would you like to search with:"
+  print "> "
+  chr = gets.chomp
+  students.each_with_index do |student, index|
+    if student[:name].start_with?(chr)
+       puts "#{index + 1}: #{student[:name]}"
+    end
+  end
 end
 
 def print_footer (names)
   puts "Overall, we have #{names.count} great students"
 end
 
-#nothing happens until we call the methods
-students = input_students
+# nothing happens until we call the methods
+# students = input_students
 print_header
-print_name(students)
+students_by_letter(students)
 print_footer(students)
