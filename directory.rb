@@ -49,13 +49,10 @@ end
 
 # lists the students based on fist character in their name determined by the user
 def students_by_letter (students)
-  puts "This will list students based on first character in their name."
-  puts "Which character would you like to search with:"
-  print "> "
-  chr = gets.chomp
+  puts "This will list students whose name is less than 14 charcters"
   students.each_with_index do |student, index|
-    if student[:name].start_with?(chr)
-       puts "#{index + 1}: #{student[:name]}"
+    if student[:name].length < 14
+       puts "#{index + 1}: #{student[:name]} of #{student[:cohort]} cohort}"
     end
   end
 end
