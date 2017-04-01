@@ -41,8 +41,9 @@ def print_header
   puts "-------------"
 end
 
+# changed method to non standard ruby call (print)
 def print_name(names)
-  names.each{ |i| puts "#{i[:name]} (#{i[:cohort]} cohort)" }
+  names.each_with_index{ |val, index| puts "#{index + 1}: #{val[:name]} (#{val[:cohort]} cohort)" }
 end
 
 def print_footer (names)
