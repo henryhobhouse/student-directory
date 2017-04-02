@@ -37,8 +37,8 @@ end
 =end
 
 def print_header
-  puts "The students of Villians Academy"
-  puts "-------------"
+  puts "The students of Villians Academy".center(100)
+  puts "-------------\n".center(100)
 end
 =begin
 # changed method to non standard ruby call (print)
@@ -49,16 +49,16 @@ end
 
 # lists the students based on fist character in their name determined by the user
 def students_by_letter (students)
-  puts "This will list students using a while loop"
+  puts "This will list students using a while loop\n".center(100)
     index = 0
     while index < students.count
-       puts "#{index + 1}: #{students[index][:name]} of #{students[index][:cohort]} cohort"
+       puts "#{index + 1}: #{students[index][:name]} of #{students[index][:cohort]} cohort".center(100, '-')
        index += 1
     end
 end
 
 def print_footer (names)
-  puts "Overall, we have #{names.count} great students"
+  puts "\nOverall, we have #{names.count} great students".center(100)
 end
 
 # nothing happens until we call the methods
