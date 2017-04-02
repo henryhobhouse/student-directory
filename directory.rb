@@ -49,12 +49,12 @@ end
 
 # lists the students based on fist character in their name determined by the user
 def students_by_letter (students)
-  puts "This will list students whose name is less than 14 charcters"
-  students.each_with_index do |student, index|
-    if student[:name].length < 14
-       puts "#{index + 1}: #{student[:name]} of #{student[:cohort]} cohort}"
+  puts "This will list students using a while loop"
+    index = 0
+    while index < students.count
+       puts "#{index + 1}: #{students[index][:name]} of #{students[index][:cohort]} cohort"
+       index += 1
     end
-  end
 end
 
 def print_footer (names)
