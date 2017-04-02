@@ -1,3 +1,4 @@
+=begin
 # the list of students in an array
 students = [
   {name: "Dr Hannibal Lecter", cohort: :november},
@@ -12,29 +13,53 @@ students = [
   {name: "Joffrey Baratheon", cohort: :november},
   {name: "Norman Bates", cohort: :november},
 ]
+=end
 
-=begin
+def date_checker(month_num)
+  if month_num.between?(1,12)
+    Date::MONTHNAMES[month_num]
+  else
+    puts "\nThat month doesn't exist! I'm therefore putting this month as too lazy to create block so you can get it right!"
+    Date::MONTHNAMES[Date.today.month]
+  end
+end
+
 def input_students
+  #makes function call data for use later on
+  require 'date'
   puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
+  puts "To finish, just hit return whilst leaving name empty"
   print "> "
   # create an empty array
   students = []
-  # get the first name
+  # get the name
   name = gets.chomp
+  # now to get cohort
+  puts "Now enter cohort month by number 1 to 12 ie. Jan = 1, May = 5 etc."
+  print "> "
+  month_num = gets.chomp.to_i
+  puts "month_num is #{month_num}"
+  # pushes user entry to date_checker function and returns the month
+  month = date_checker(month_num)
   # while the name is not empty, repeat this code
   while !name.empty? do
     # add the student has to the array
-    students << {name: name, cohort: :november}
+    students << {name: name, cohort: month}
     puts "Now we have #{students.count} students"
+    puts "\nNext name. As before leave blank if you want to exit/finished"
     print "> "
-    # get another name from the user
+    # get another name and cohort month from the user
     name = gets.chomp
+    puts "Their cohort month (1 to 12)..."
+    print "> "
+    month_num = gets.chomp.to_i
+    # pushes user entry to date_checker function and returns the month
+    month = date_checker(month_num)
   end
   # return the array of students
   students
 end
-=end
+
 
 def print_header
   puts "The students of Villians Academy".center(100)
@@ -58,11 +83,12 @@ def students_by_letter (students)
 end
 
 def print_footer (names)
-  puts "\nOverall, we have #{names.count} great students".center(100)
+  puts ""
+  puts "Overall, we have #{names.count} great students".center(100)
 end
 
 # nothing happens until we call the methods
-# students = input_students
+students = input_students
 print_header
 students_by_letter(students)
 print_footer(students)
