@@ -20,6 +20,7 @@ students = [
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
+  puts "3. Save the list to 'students.csv'"
   puts "9. Exit" # 9 because we'll be adding more items
   print ">  "
 end
@@ -36,6 +37,8 @@ def process(selection)
     students = input_students
   when "2"
     show_students
+  when "3"
+    save_students
   when "9"
     exit # this will cause the program to terminate
   else
@@ -80,7 +83,7 @@ def input_students
   while !name.empty? do
     # add the student has to the array
     @students << {name: name, cohort: month}
-    puts "Now we have #{students.count} students"
+    puts "Now we have #{@students.count} students"
     puts "\nNext name. As before leave blank if you want to exit/finished"
     print "> "
     # get another name and cohort month from the user
@@ -108,6 +111,18 @@ def print_students_list(names)
     puts "#{cohort.capitalize}:".center(10)
     names.each_with_index{ |x, index| puts "#{index + 1}: #{x[:name].capitalize} ".center(100) }
   end
+end
+
+def save_students
+  # open the file for writing
+  file = File.open("students.csv", "w")
+  #iterate over the array of students
+  @students.each do |student|
+    student_data = [student[:name], student[:cohort]]
+    csv_line = student_data.join(",")
+    file.puts csv_line
+  end
+  file.close
 end
 
 =begin
