@@ -2,18 +2,19 @@
 # the list of students in an array
 students = [
   {name: "Dr Hannibal Lecter", cohort: :november},
-  {name: "Darth Vader", cohort: :november},
+  {name: "Darth Vader", cohort: :october},
   {name: "Nurse Ratched", cohort: :november},
   {name: "Michael Corleone", cohort: :november},
   {name: "Alex DeLarge", cohort: :november},
   {name: "The Wicked Witch of the West", cohort: :november},
-  {name: "Terminator", cohort: :november},
+  {name: "Terminator", cohort: :august},
   {name: "Freddy Krueger", cohort: :november},
-  {name: "The Joker", cohort: :november},
+  {name: "The Joker", cohort: :august},
   {name: "Joffrey Baratheon", cohort: :november},
   {name: "Norman Bates", cohort: :november},
 ]
 =end
+
 
 def date_checker(month_num)
   if month_num.between?(1,12)
@@ -65,22 +66,27 @@ def print_header
   puts "The students of Villians Academy".center(100)
   puts "-------------\n".center(100)
 end
-=begin
+
 # changed method to non standard ruby call (print)
 def print_name(names)
-  names.each_with_index{ |val, index| puts "#{index + 1}: #{val[:name]} (#{val[:cohort]} cohort)" }
+  names_group = Hash.new
+  names_group = names.group_by { |x| x[:cohort] }
+  names_group.each do |cohort, names|
+    puts "\n#{cohort.capitalize}:"
+    names.each{ |x| puts "#{x[:name]}".center(100, '-') }
+  end
 end
-=end
 
+=begin
 # lists the students based on fist character in their name determined by the user
-def students_by_letter (students)
+def students_print_by_month (students)
   puts "This will list students using a while loop\n".center(100)
-    index = 0
-    while index < students.count
+    students.each{|}
        puts "#{index + 1}: #{students[index][:name]} of #{students[index][:cohort]} cohort".center(100, '-')
        index += 1
     end
 end
+=end
 
 def print_footer (names)
   puts ""
@@ -90,5 +96,5 @@ end
 # nothing happens until we call the methods
 students = input_students
 print_header
-students_by_letter(students)
+print_name(students)
 print_footer(students)
