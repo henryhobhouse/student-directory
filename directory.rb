@@ -15,6 +15,31 @@ students = [
 ]
 =end
 
+def interactive_menu
+  students = []
+  loop do
+    # 1.print the menu and ask the user what to do
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "9. Exit" # 9 because we'll be adding more items
+    print ">  "
+    # 2. read the input and same it into a variable
+    selection = gets.chomp
+    # 3. do what the user has asked
+    case selection
+    when "1"
+      students = input_students
+    when "2"
+      print_header
+      print_name(students)
+      print_footer(students)
+    when "9"
+      exit # this will cause the program to terminate
+    else
+      puts "I don't know what you meant, try again"
+    end
+  end
+end
 
 def date_checker(month_num)
   if month_num.between?(1,12)
@@ -28,6 +53,7 @@ end
 def input_students
   #makes function call data for use later on
   require 'date'
+  students = []
   puts "Please enter the names of the students"
   puts "To finish, just hit return whilst leaving name empty"
   print "> "
@@ -69,12 +95,11 @@ end
 
 # changed method to non standard ruby call (print)
 def print_name(names)
-    puts "test"
-  names_group = Hash.new
   names_group = names.group_by { |x| x[:cohort] }
   names_group.each do |cohort, names|
-    puts "\n#{cohort.capitalize}:"
-    names.each{ |x| puts "#{x[:name]}".center(100, '-') }
+    puts ""
+    puts "#{cohort.capitalize}:".center(10, '-')
+    names.each_with_index{ |x, index| puts "#{index + 1}: #{x[:name].capitalize} ".center(100) }
   end
 end
 
@@ -92,13 +117,10 @@ end
 def print_footer (names)
   puts ""
   if names.count > 1; puts "Overall, we have #{names.count} great students".center(100)
-  elsif names.count == 0; puts "We have no Students!"
+  elsif names.count == 0; puts "We have no Students!".center(100)
   else names.count == 1; puts "Overall, we have #{names.count} great student".center(100)
   end
 end
 
 # nothing happens until we call the methods
-students = input_students
-print_header
-students.count > 0 ? print_name(students) : nil
-print_footer(students)
+interactive_menu
