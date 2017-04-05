@@ -69,6 +69,7 @@ end
 
 # changed method to non standard ruby call (print)
 def print_name(names)
+    puts "test"
   names_group = Hash.new
   names_group = names.group_by { |x| x[:cohort] }
   names_group.each do |cohort, names|
@@ -90,11 +91,14 @@ end
 
 def print_footer (names)
   puts ""
-  puts "Overall, we have #{names.count} great students".center(100)
+  if names.count > 1; puts "Overall, we have #{names.count} great students".center(100)
+  elsif names.count == 0; puts "We have no Students!"
+  else names.count == 1; puts "Overall, we have #{names.count} great student".center(100)
+  end
 end
 
 # nothing happens until we call the methods
 students = input_students
 print_header
-print_name(students)
+students.count > 0 ? print_name(students) : nil
 print_footer(students)
