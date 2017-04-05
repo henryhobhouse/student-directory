@@ -1,3 +1,5 @@
+@students = [] # an empty array accesible to all methods
+
 =begin
 # the list of students in an array
 students = [
@@ -15,29 +17,38 @@ students = [
 ]
 =end
 
+def print_menu
+  puts "1. Input the students"
+  puts "2. Show the students"
+  puts "9. Exit" # 9 because we'll be adding more items
+  print ">  "
+end
+
+def show_students
+  print_header
+  print_students_list(@students)
+  print_footer(@students)
+end
+
+def process(selection)
+  case selection
+  when "1"
+    students = input_students
+  when "2"
+    show_students
+  when "9"
+    exit # this will cause the program to terminate
+  else
+    puts "I don't know what you meant, try again"
+  end
+end
+
 def interactive_menu
-  students = []
   loop do
     # 1.print the menu and ask the user what to do
-    puts "1. Input the students"
-    puts "2. Show the students"
-    puts "9. Exit" # 9 because we'll be adding more items
-    print ">  "
-    # 2. read the input and same it into a variable
-    selection = gets.chomp
-    # 3. do what the user has asked
-    case selection
-    when "1"
-      students = input_students
-    when "2"
-      print_header
-      print_name(students)
-      print_footer(students)
-    when "9"
-      exit # this will cause the program to terminate
-    else
-      puts "I don't know what you meant, try again"
-    end
+    print_menu
+    # 2. read the input and passes it to the process method
+    process(gets.chomp)
   end
 end
 
@@ -53,12 +64,9 @@ end
 def input_students
   #makes function call data for use later on
   require 'date'
-  students = []
   puts "Please enter the names of the students"
   puts "To finish, just hit return whilst leaving name empty"
   print "> "
-  # create an empty array
-  students = []
   # get the name
   name = gets.chomp
   # now to get cohort
@@ -71,7 +79,7 @@ def input_students
   # while the name is not empty, repeat this code
   while !name.empty? do
     # add the student has to the array
-    students << {name: name, cohort: month}
+    @students << {name: name, cohort: month}
     puts "Now we have #{students.count} students"
     puts "\nNext name. As before leave blank if you want to exit/finished"
     print "> "
@@ -84,7 +92,6 @@ def input_students
     month = date_checker(month_num)
   end
   # return the array of students
-  students
 end
 
 
@@ -94,11 +101,11 @@ def print_header
 end
 
 # changed method to non standard ruby call (print)
-def print_name(names)
+def print_students_list(names)
   names_group = names.group_by { |x| x[:cohort] }
   names_group.each do |cohort, names|
     puts ""
-    puts "#{cohort.capitalize}:".center(10, '-')
+    puts "#{cohort.capitalize}:".center(10)
     names.each_with_index{ |x, index| puts "#{index + 1}: #{x[:name].capitalize} ".center(100) }
   end
 end
