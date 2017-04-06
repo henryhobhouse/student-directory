@@ -2,12 +2,24 @@
 
 def try_load_students
   filename = ARGV.first # first argument from the command line
+  if filename.nil?
+    puts "No filename passed from command line. Would you like to enter one? "
+    print ">  "
+    temp_name = STDIN.gets.chomp
+    if temp_name.nil?
+      puts "defaulting to students.csv"
+      load_students
+    else
+      file_checker(temp_name)
+    end
+  else
+    file_checker(filename)
+  end
+end
+
+def file_checker(filename)
   if File.exists?(filename) # if it exists
     load_students(filename)
-    puts "Loaded #{@students.count} from #{filename}"
-  elsf filename.nil?
-    puts "No filename passed from command line so have defaults to 'students.csv'."
-    load_students
   else
     puts "Sorry, #{filename} doesn't exist. Defaulting to 'students.csv'."
     load_students
@@ -27,7 +39,7 @@ def print_menu
   puts "\n1. Input the students"
   puts "2. Show the students"
   puts "3. Save the list to 'students.csv'"
-  puts "4. Load the list from students.csv"
+  puts "4. Load the list from file"
   puts "9. Exit" # 9 because we'll be adding more items
   print ">  "
 end
@@ -127,17 +139,19 @@ def save_students
     csv_line = student_data.join(",")
     file.puts csv_line
   end
-  file.close
 end
 
 def load_students(filename = "students.csv")
-  #open file for writing
   file = File.open(filename, "r")
   file.readlines.each do |line|
-    name, cohort = line.chomp.split(',')
+  name, cohort = line.chomp.split(',')
     @students << {name: name, cohort: cohort.to_sym}
   end
-  file.close
+  puts "Loaded #{@students.count} Students from #{filename}"
+end
+
+def process_file(filename)
+
 end
 
 # nothing happens until we call the methods
