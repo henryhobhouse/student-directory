@@ -1,11 +1,23 @@
 @students = [] # an empty array accesible to all methods
 
+def try_load_students
+  filename = ARGV.first # first argument from the command line
+  return if filename.nil? # get out of method if it isn't given
+  if File.exists?(filename) # if it exists
+    load_students(filename)
+    puts "Loaded #{@students.count} from #{filename}"
+  else # if it doesn't exists
+    puts "Sorry, #{filename} doesn't exist."
+    exit #quite program
+  end
+end
+
 def interactive_menu
   loop do
     # 1.print the menu and ask the user what to do
     print_menu
     # 2. read the input and passes it to the process method
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
 end
 
@@ -36,13 +48,18 @@ def process(selection)
 end
 
 def input_students
-  #makes function call data for use later on
-  require 'date'
-  puts "Please enter the names of the students"
+  # makes function call data for use later on
+  puts "\nPlease enter the names of the students"
   puts "To finish, just hit return whilst leaving name empty"
   print "> "
-  # get the name
-  name = gets.chomp
+  name = STDIN.gets.chomp # get the name
+  student_input_loop(name)
+  # return the array of students
+end
+
+def student_input_loop(name)
+  require 'date'
+  while !name.empty? do # while the name is not empty, repeat this code
   # now to get cohort
   puts "Now enter cohort month by number 1 to 12 ie. Jan = 1, May = 5 etc."
   print "> "
@@ -50,22 +67,14 @@ def input_students
   puts "month_num is #{month_num}"
   # pushes user entry to date_checker function and returns the month
   month = date_checker(month_num)
-  # while the name is not empty, repeat this code
-  while !name.empty? do
-    # add the student has to the array
-    @students << {name: name, cohort: month}
-    puts "Now we have #{@students.count} students"
-    puts "\nNext name. As before leave blank if you want to exit/finished"
-    print "> "
-    # get another name and cohort month from the user
-    name = gets.chomp
-    puts "Their cohort month (1 to 12)..."
-    print "> "
-    month_num = gets.chomp.to_i
-    # pushes user entry to date_checker function and returns the month
-    month = date_checker(month_num)
+  # add the student has to the array
+  @students << {name: name, cohort: month}
+  puts "Now we have #{@students.count} students"
+  puts "\nNext name. As before leave blank if you want to exit/finished"
+  print "> "
+  # get another name and cohort month from the user
+  name = STDIN.gets.chomp
   end
-  # return the array of students
 end
 
 def date_checker(month_num)
@@ -119,9 +128,9 @@ def save_students
   file.close
 end
 
-def load_students
+def load_students(filename = "students.csv")
   #open file for writing
-  file = File.open("students.csv", "r")
+  file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort = line.chomp.split(',')
     @students << {name: name, cohort: cohort.to_sym}
@@ -130,4 +139,5 @@ def load_students
 end
 
 # nothing happens until we call the methods
+try_load_students
 interactive_menu
