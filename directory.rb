@@ -50,7 +50,7 @@ end
 def input_students
   # makes function call data for use later on
   puts "\nPlease enter the names of the students"
-  puts "To finish, just hit return whilst leaving name empty"
+  puts "To return to the menu, just hit return whilst leaving name empty"
   print "> "
   name = STDIN.gets.chomp # get the name
   student_input_loop(name)
@@ -70,7 +70,7 @@ def student_input_loop(name)
   # add the student has to the array
   @students << {name: name, cohort: month}
   puts "Now we have #{@students.count} students"
-  puts "\nNext name. As before leave blank if you want to exit/finished"
+  puts "\nNext name. As before leave blank if you want to return to menu"
   print "> "
   # get another name and cohort month from the user
   name = STDIN.gets.chomp
