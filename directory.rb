@@ -2,13 +2,15 @@
 
 def try_load_students
   filename = ARGV.first # first argument from the command line
-  return if filename.nil? # get out of method if it isn't given
   if File.exists?(filename) # if it exists
     load_students(filename)
     puts "Loaded #{@students.count} from #{filename}"
-  else # if it doesn't exists
-    puts "Sorry, #{filename} doesn't exist."
-    exit #quite program
+  elsf filename.nil?
+    puts "No filename passed from command line so have defaults to 'students.csv'."
+    load_students
+  else
+    puts "Sorry, #{filename} doesn't exist. Defaulting to 'students.csv'."
+    load_students
   end
 end
 
@@ -22,7 +24,7 @@ def interactive_menu
 end
 
 def print_menu
-  puts "1. Input the students"
+  puts "\n1. Input the students"
   puts "2. Show the students"
   puts "3. Save the list to 'students.csv'"
   puts "4. Load the list from students.csv"
